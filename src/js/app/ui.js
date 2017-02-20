@@ -125,7 +125,7 @@ app.service('ui', ['planets', 'camera', 'state', 'attributes', function(planets,
 						'</div>' +
 						'<div class="exhibit">' +
 							'<div class="exhibitBody">' +
-								'<div class="image"></div>' +
+								'<div id="' + celestial + 'image" class="image"></div>' +
 								'<div class="description"></div>' +
 								'<table class="stats"></table>' +
 								'<div class="ornament2"></div>' +

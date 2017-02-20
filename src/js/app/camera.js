@@ -63,18 +63,22 @@ app.service('camera', ['planets', 'attributes', 'state', function(planets, attri
 		
 		document.addEventListener("mousemove", function(event){
 
-			if(move && event.which == 1){
-				if(!this.mouseOverPanel){
-					cameraRotate(event.movementX * 0.2, event.movementY * 0.2);
+			if(move){
+				if(state.isChrome && event.which == 1 ||
+					((state.isEdge || state.isFirefox) && event.buttons == 1)){
+					if(!this.mouseOverPanel){
+						cameraRotate(event.movementX * 0.2, event.movementY * 0.2);
+					}
 				}
-			}
-			else if(move && event.which == 3){
-				
-				// if the world has been moved, the focus target is cancelled
-				this.resetFlyingCam(false);
-				this.resetFlyingRotateCam();
-				
-				worldMove(event.movementX, -event.movementY);
+				else if(state.isChrome && event.which == 3 ||
+						((state.isEdge || state.isFirefox) && event.buttons == 2)){
+					
+					// if the world has been moved, the focus target is cancelled
+					this.resetFlyingCam(false);
+					this.resetFlyingRotateCam();
+					
+					worldMove(event.movementX, -event.movementY);
+				}
 			}
 		}.bind(this), false);
 

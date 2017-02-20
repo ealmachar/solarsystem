@@ -238,7 +238,6 @@ an exhibit panel
 	height: 0px;
 	width: 0px;
 	margin-bottom: 20px;
-	background-image: url('../images/planetimage/toronto-1812178_640.jpg');
 	background-size: cover;
 	background-position: center;
 	border-style: solid;
@@ -299,7 +298,7 @@ navigation panel
 #navPanel{
 	position: absolute;
 	width: 200px;
-	top: 50px;
+	top: 25px;
 	
 	color: rgba(70, 130, 180, 1);
 
@@ -458,3 +457,41 @@ navigation panel
 	border-right: 50px solid transparent;
 	border-top: 15px solid rgba(70, 130, 180, 0.1);
 }
+
+
+
+
+
+
+#sunimage{
+	background-image: url('../images/planetimage/sun.png');
+}
+
+#mercuryimage{
+	background-image: url('../images/planetimage/mercury.png');
+}
+
+#venusimage{
+	background-image: url('../images/planetimage/venus.png');
+}
+
+#earthimage{
+	background-image: url('../images/planetimage/toronto-1812178_640.jpg');
+}
+
+#moonimage{
+	background-image: url('../images/planetimage/moon.png');
+}
+
+#marsimage{
+	background-image: url('../images/planetimage/mars.png');
+}
+
+#phobosimage{
+	background-image: url('../images/planetimage/phobos.png');
+}
+
+#deimosimage{
+	background-image: url('../images/planetimage/deimos.png');
+}
+
