@@ -1,0 +1,460 @@
+@font-face{
+	font-family: masseffect;
+	src: url(../fonts/me123.ttf);
+}
+html {
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	cursor: default;
+}
+
+body{
+	position: absolute;
+	margin: 0;
+	overflow: hidden;
+	background-color: rgba(0, 0, 0, 1);
+	font-family: 'Armata', sans-serif;
+}
+
+::-webkit-scrollbar {
+/*    width: 2em;*/
+    height: 2em;
+}
+
+
+/*
+
+ui nameplates for celestials
+which transitions to
+an exhibit panel
+
+*/
+
+.tags, .tagTop, .tagMid, .tagBot{
+	width: 90px;
+
+}
+
+.tagTop, .tagMid, .tagBot{
+}
+
+.tags{
+	position: absolute;
+	z-index: 1;
+}
+
+.tagName{
+	position: absolute;
+	top: 1px;
+	width: 0px;
+	height: 25px;
+	padding-top: 1px;
+	padding-left: 5px;
+	
+	color: rgba(70, 130, 180, 1);
+
+/*	font-weight: bold;*/
+	text-align: center;
+	
+	border-top: 0px solid transparent;
+	border-right: 115px solid transparent;
+	border-bottom: 0px solid transparent;
+	
+	transition: padding-left 0.5s, font-size 0.5s, width 0.5s, top 0.5s;
+	z-index: 1;
+}
+
+.tagName:hover{
+	color: rgba(0, 0, 0, 1);
+}
+
+.selected.tagName{
+	color: rgba(0, 0, 0, 1);
+}
+
+.phase1.tagName{
+	top: 5px;
+	width: 250px;
+	font-size: 21px;
+}
+
+.tagMid{
+	height: 0px;
+	border-top: 25px solid rgba(70, 130, 180, 0.1);
+    border-right: 25px solid transparent;
+	transition: width 0.5s;
+}
+
+.tagMid:hover { 
+    border-top: 25px solid rgba(70, 130, 180, .9);
+}
+
+.phase1.tagMid{
+	width: 510px;
+}
+
+.selected.tagMid{
+	border-top: 25px solid rgba(70, 130, 180, .9);
+	animation-name: flicker_mid;
+	animation-duration: 0.075s;
+	animation-iteration-count: 7;
+	animation-direction: alternate;
+}
+
+
+.exhibit{
+	position: relative;
+	left: 25px;
+	width: 0px;
+	height: 0px;
+	
+	background-color: rgba(70, 130, 180, 0.1);
+	color: rgba(70, 130, 180, 0.9);
+	font-family: 'Armata', sans-serif;
+	font-size: 14px;
+/*	font-weight: bold;*/
+	
+	transition: height 0.5s, width 0.5s;
+	
+
+}
+
+.phase1.exhibit{
+	width: 450px;
+}
+
+.phase2.exhibit{
+	height: 500px;
+	
+	padding-left: 30px;
+}
+
+.ornament1{
+	position: absolute;
+	left: -10px;
+	top: 0px;
+	width: 0px;
+	height: 0px;
+	border-top: 0px solid rgba(70, 130, 180, 0.9);
+    border-right: 10px solid transparent;
+	border-left: 10px solid transparent;
+	transition: border-top 0.5s, border-left 0.5s, border-right 0.5s, width 0.5s;
+}
+
+.phase1.ornament1{
+	width: 210px;
+}
+
+.phase2.ornament1{
+	border-top: 7px solid rgba(70, 130, 180, 0.9);
+    border-right: 10px solid transparent;
+	border-left: 10px solid transparent;
+}
+
+/*
+.ornament2{
+	position: absolute;
+	left: 240px;
+	bottom: 0px;
+	width: 0px;
+	height: 0px;
+	border-bottom: 0px solid rgba(70, 130, 180, 0.9);
+    border-right: 10px solid transparent;
+	border-left: 10px solid transparent;
+	transition: border-bottom 0.5s, border-left 0.5s, border-right 0.5s, width 0.5s;
+}
+
+.phase1.ornament2{
+	width: 220px;
+}
+
+.phase2.ornament2{
+	border-bottom: 7px solid rgba(70, 130, 180, 0.9);
+    border-right: 10px solid transparent;
+	border-left: 10px solid transparent;
+}
+*/
+
+.ornament2{
+	position: absolute;
+	left: 30px;
+	bottom: 20px;
+	width: 0px;
+	height: 0px;
+	
+	border-bottom: 1px solid rgba(70, 130, 180, 0.3);
+}
+
+.phase1.ornament2{
+	width: 420px;
+}
+
+.tagBot{
+	position: relative;
+	left: 0px;
+	height: 0px;
+	width: 89px;
+    border-top: 1px solid rgba(70, 130, 180, 0.9);
+    border-right: 1px solid transparent;
+	border-left: 0px solid transparent;
+	transition: width 0.5s, left 0.5s, border-top 0.5s, border-right 0.5s, border-left 0.5s;
+}
+
+.phase1.tagBot{
+	width: 380px;
+	left: 25px;
+	border-top: 15px solid rgba(70, 130, 180, 0.1);
+	border-right: 50px solid transparent;
+	border-left: 50px solid transparent;
+}
+
+@keyframes flicker_mid {
+	from {
+		border-top: 25px solid rgba(70, 130, 180, 0.1);
+	}
+    to {
+		border-top: 25px solid rgba(70, 130, 180, .9);
+	}
+}
+
+.exhibitBody{
+	height: 95%;
+	width: 100%;
+	overflow: auto;
+	opacity: 0;
+	transition: opacity 0.5s, padding-top 0.5s;
+}
+
+.phase3.exhibitBody{
+	padding-top: 30px;
+	
+	opacity: 1;
+}
+
+.image{
+	height: 0px;
+	width: 0px;
+	margin-bottom: 20px;
+	background-image: url('../images/planetimage/toronto-1812178_640.jpg');
+	background-size: cover;
+	background-position: center;
+	border-style: solid;
+	border-width: 1px;
+	border-color: rgba(70, 130, 180, 0.9);
+}
+
+.phase2.image{
+	height: 200px;
+	width: 415px;
+}
+
+.description{
+
+	width: 0px;
+	margin-bottom: 20px;
+	text-indent: 2em;
+	text-align:justify;
+}
+
+.phase2.description{
+	width: 415px;
+}
+
+span.hide{
+	visibility: hidden;
+}
+
+.stats{
+	height: 0px;
+	width: 0px;
+	margin-bottom: 40px;
+}
+
+.phase2.stats{
+	height: 200px;
+	width: 415px;
+}
+
+tr td:first-child{
+	width: 170px;
+}
+
+tr td:last-child{
+	width: 245px;
+}
+
+td{
+	vertical-align: top;
+}
+
+/*
+
+navigation panel
+
+*/
+
+#navPanel{
+	position: absolute;
+	width: 200px;
+	top: 50px;
+	
+	color: rgba(70, 130, 180, 1);
+
+	text-align: center;
+}
+
+#navTitle{
+	font-size: 18px;
+	background-color: rgba(70, 130, 180, .1);
+}
+
+.panelCell{
+	height: 25px;
+	background-color: rgba(70, 130, 180, .1);
+}
+
+.panelCell.panelTarget, .panelCell.panelParent{
+	height: 28px;
+}
+
+.panelTarget span, .panelParent span, #navTitle span{
+	position: relative;
+	top: 4px;
+}
+
+.panelBreak{
+	position: relative;
+	height: 20px;
+	padding-top: 20px;
+	background-color: rgba(70, 130, 180, .1);
+}
+
+.panelBreakLine{
+	position: absolute;
+	width: 150px;
+	left: 25px;
+	border-bottom: 1px solid rgba(70, 130, 180, 0.3);
+}
+
+.panelShortBreak{
+	position: relative;
+	height: 20px;
+	background-color: rgba(70, 130, 180, .1);
+}
+	
+.panelTarget:hover, .panelParent:hover{
+	color: rgba(0, 0, 0, 1);
+	background-color: rgba(70, 130, 180, .9);
+}
+
+.selected.panelTarget, .selected.panelParent{
+	color: rgba(0, 0, 0, 1);
+	background-color: rgba(70, 130, 180, .9);
+	animation-name: flicker_nav;
+	animation-duration: 0.075s;
+	animation-iteration-count: 7;
+	animation-direction: alternate;
+}
+
+.pauseAnim.panelTarget{
+	animation-iteration-count: 0;
+}
+
+@keyframes flicker_nav {
+	from {
+		background-color: rgba(70, 130, 180, .1);
+	}
+    to {
+		background-color: rgba(70, 130, 180, .9);
+	}
+}
+
+.panelParent{
+	position: relative;
+}
+
+.panelChild{
+	position: absolute;
+	display: none;
+	left: 200px;
+	top: 0px;
+	width: 200px;
+	color: rgba(70, 130, 180, 1);
+}
+
+.panelChild.show{
+	display: block;
+}
+
+#panelTimeControls{
+	padding: 10px 12.5%;
+	display: flex;
+}
+
+.panelButton{
+	margin: 0px 5px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: rgba(70, 130, 180, .5);
+	height: 20px;
+	width: 40px;
+}
+
+
+.panelButton:hover{
+	color: rgba(0, 0, 0, 1);
+	background-color: rgba(70, 130, 180, .9);
+}
+
+.panelCoord{
+	position: absolute;
+	left: 30px;
+}
+
+.panelNumber.flash{
+	animation-name: flash;
+	animation-duration: 0.5s;
+}
+
+.panelau{
+	position: absolute;
+	left: 120px;
+}
+
+.panelVelTxt{
+	position: absolute;
+	left: 10px;
+}
+
+.panelms{
+	position: absolute;
+	left: 150px;
+}
+
+@keyframes flash{
+	from {
+		background-color: rgba(70, 130, 180, .9);
+	}
+    to {
+		background-color: rgba(70, 130, 180, .1);
+	}
+}
+
+.navOrnamentTop{
+	position: relative;
+	width: 150px;
+
+	border-right: 50px solid transparent;
+	border-bottom: 15px solid rgba(70, 130, 180, 0.1);
+}
+
+.navOrnamentBot{
+	position: relative;
+	width: 150px;
+
+	border-right: 50px solid transparent;
+	border-top: 15px solid rgba(70, 130, 180, 0.1);
+}

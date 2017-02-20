@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<script src="../js/jquery.js"></script>
+	<script src="../js/material.min.js"></script>
+	
+	
+	<link rel="stylesheet" href="styles.css">
+	<link rel="stylesheet" href="material.min.css">
+	<link rel="stylesheet" href="material.color.css">
+	
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link href="https://fonts.googleapis.com/css?family=Orbitron|Armata" rel="stylesheet">
+</head>
+
+
+<body>
+
+<div id="ui" style="width: 200px; height: 25px; margin-bottom: 10px; background-color: grey;">remove select</div>
+<div id="ui2" style="width: 200px; height: 25px; margin-bottom: 10px; background-color: grey;">phase1</div>
+
+<div id="ui3" style="width: 200px; height: 25px; margin-bottom: 10px; background-color: grey;">remove phase1</div>
+
+<div id="earthtag" class="tags" style="left:300px;">
+	<div class="tagMid">
+		<div id="earth" class="tagName">Ganymede</div>
+	</div>
+	<div class="exhibit">
+		<div class="exhibitBody">
+			<div class="image"></div>
+			<div class="description"></div>
+			<table class="stats"></table>
+		</div>
+		<div class="ornament1"></div>
+		<div class="ornament2"></div>
+	</div>
+	<div class="tagBot"></div>
+</div>
+
+
+
+<!--
+<div id="navPanel">
+	<div class="navOrnamentTop"></div>
+	<div id="navTitle">Solar System</div>
+	<div class="panelBreak"><div class="panelBreakLine"></div></div>
+	<div id="sunnav" class="panelTarget panelCell">Sun</div>
+	<div id="mercurynav" class="panelTarget panelCell">Mercury</div>
+	<div id="venusnav" class="panelTarget panelCell">Venus</div>
+	<div class="panelParent panelCell">Earth
+		<div class="panelChild">
+			<div id="earthnav" class="panelTarget panelCell">Earth</div>
+			<div id="moonnav" class="panelTarget panelCell">Moon</div>
+		</div>
+	</div>
+	<div class="panelParent panelCell">Mars
+		<div class="panelChild">
+			<div id="marsnav" class="panelTarget panelCell">Mars</div>
+			<div id="phobosnav" class="panelTarget panelCell">Phobos</div>
+			<div id="deimosnav" class="panelTarget panelCell">Deimos</div>
+		</div>
+	</div>
+	<div id="jupternav" class="panelTarget panelCell">Jupiter</div>
+	<div id="saturnnav" class="panelTarget panelCell">Saturn</div>
+	<div id="uranusnav" class="panelTarget panelCell">Uranus</div>
+	<div id="neptunenav" class="panelTarget panelCell">Neptune</div>
+
+	<div class="panelBreak"><div class="panelBreakLine"></div></div>
+	
+	<div class="panelCell">Time:
+		<span id="panelSliderDisplay">-.-x</span>
+	</div>
+	
+	<div id="panelTimeControls" class="panelCell">
+		<div class="panelButton">x0.8</div>
+		<div class="panelButton">1.0</div>
+		<div class="panelButton">x1.2</div>
+	</div>
+
+	<div class="panelCell">
+		<input id="panelSlider" class="mdl-slider mdl-js-slider" type="range" min="0" max="100" value="25" tabindex="0">
+	</div>
+	
+	<div class="panelBreak"><div class="panelBreakLine"></div></div>
+	
+	<div class="panelCell">Target: <span id="panelTargetText">Earth</span></div>
+	<div class="panelCell">x: <span id="panelx">---</span></div>
+	<div class="panelCell">y: <span id="panely">---</span></div>
+	<div class="panelCell">z: <span id="panelz">---</span></div>
+	<div class="panelCell">Velocity: <span id="panelVelocity">---</span></div>
+	<div class="panelCell">Unit Vector:</div>
+	<div id="panelUnit" class="panelCell"><0.--, 0.--, 0.-- ></div>
+	
+	<div class="panelBreak"><div class="panelBreakLine"></div></div>
+	
+	<div class="navOrnamentBot"></div>
+</div>
+-->
+<script>
+/*
+var target;
+
+$('.panelParent').hover(function(){
+	$(this).children().toggleClass( "show" )
+});
+
+$('.panelTarget').click(function(){
+	$('#' + target + 'nav').removeClass('selected pauseAnim');
+	var obj = $(this);
+	obj.addClass('selected');
+	var id = obj.attr('id')
+	id = id.substr(0, id.length-3);
+	$('#' + id).addClass('selected');
+	
+	setTimeout(function(){
+		obj.addClass('pauseAnim');
+		$('#' + id).addClass('pauseAnim');
+	}, 600);
+	
+	
+	target = id;
+});
+
+
+
+
+
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+var target;
+var textProgress = 0;
+var stats = [
+	{stat: "Orbital period", 			value: "1.00001742096 yr"},
+	{stat: "Average orbital speed", 	value: "29.78 km/s (18.50 mi/s)"},
+	{stat: "Moons", 					value: "1 natural satellite: the Moon<br>5 quasi-satellites"},
+	{stat: "Mean radius", 				value: "6,371.0 km (3,958.8 mi)"},
+	{stat: "Mass", 						value: "5.97237×1024 kg (1.31668×1025 lb)"},
+	{stat: "Surface Gravity", 			value: "9.807 m/s<sup>2</sup>"},
+	{stat: "Mean surface Temp",			value: "15 °C"},
+	{stat: "Composition", 				value: "78.08% nitrogen (N2) (dry air)<br>20.95% oxygen (O2)<br>0.930% argon<br>0.0402% carbon dioxide"}
+];
+
+$('#earth').click(function(event){
+	target = event.target.id;
+	$('#' + target + "tag").find('.tagMid').addClass('selected').find('.tagName').addClass('selected');
+});
+
+$('#ui').click(function(event){
+
+	$('#' + target + "tag").find('.tagMid').removeClass('selected').find('.tagName').removeClass('selected');
+});
+
+$('#ui2').click(function(event){
+
+	$('#' + target + "tag").find('.tagName, .tagMid, .tagBot, .exhibit, .ornament1, .ornament2').addClass('phase1');
+	
+	setTimeout(function(){
+		$('.exhibit').css('height', ( window.innerHeight - 200 ) + 'px');
+		$('.exhibitBody').css('height', ( window.innerHeight - 200 - 30 ) + 'px');
+		$('#' + target + "tag").find('.exhibit, .ornament1, .ornament2, .image, .description, .stats').addClass('phase2');
+		setTimeout(function(){
+			$('#' + target + "tag").find('.exhibitBody').addClass('phase3');
+			
+			stats.forEach(function(ele, i){
+				var newline = '<tr id="' + i + '"><td id="td' + i + '"></td><td></td></tr>';
+				$('#' + target + "tag").find('.stats').append(newline);
+			});
+			
+			function drawText(){
+				setTimeout(function(){
+					var obj = $('#' + target + "tag");
+					var table = obj.find('tr');
+					
+					if(textProgress <= earthnote.length){
+						textProgress += 2;
+						var str = earthnote.substr(0, textProgress) + '<span class="hide">' + earthnote.substr(textProgress, earthnote.length) + '</span>';
+						obj.find('.description').html(str);
+						drawText();
+						
+						stats.forEach(function(ele, index){
+							var line = $(table[index]);
+							var stat = line.find('td:nth-child(' + 1 + ')');
+							var value = line.find('td:nth-child(' + 2 + ')');
+							var progress = textProgress/earthnote.length;
+							
+							var statProg = Math.round(ele.stat.length * progress);
+							var valueProg = Math.round(ele.value.length * progress);
+							
+							var statstr = ele.stat.substr(0, statProg) + '<span class="hide">' + ele.stat.substr(statProg , ele.stat.length);
+							var valuestr = ele.value.substr(0, valueProg) + '<span class="hide">' + ele.value.substr(valueProg, ele.value.length);
+							
+							stat.html(statstr);
+							value.html(valuestr);
+//							console.log(label);
+//							children
+						});
+					}
+				}, 1);
+			};
+			drawText();
+			
+
+			
+		}, 500);
+	}, 500);
+});
+
+$('#ui3').click(function(event){
+	$('#' + target + "tag").find('.exhibitBody').removeClass('phase3');
+	
+	setTimeout(function(){
+	
+		$('#' + target + "tag").find('.exhibit').css('height', '0px');
+		$('#' + target + "tag").find('.exhibit, .ornament1, .ornament2, .image, .description, .stats').removeClass('phase2');
+
+		textProgress = 0;
+		$('#' + target + "tag").find('.description').text('');
+		setTimeout(function(){
+			$('#' + target + "tag").find('.tagName, .tagMid, .tagBot, .exhibit, .ornament1, .ornament2').removeClass('phase1');
+		}, 500);
+	}, 500);
+});
+
+var earthnote = "Earth (1 AU from the Sun) is the largest and densest of the inner planets, the only one known to have current geological activity, and the only place where life is known to exist. Its liquid hydrosphere is unique among the terrestrial planets, and it is the only planet where plate tectonics has been observed. Earth's atmosphere is radically different from those of the other planets, having been altered by the presence of life to contain 21% free oxygen. It has one natural satellite, the Moon, the only large satellite of a terrestrial planet in the Solar System.";
+
+
+</script>
+
+<!--
+
+[celestials]
+sun
+mercury
+venus
+earth
+	earth
+	moon
+mars
+	mars
+	phobos
+	deimos
+jupiter
+	jupiter
+	moons
+	...
+saturn
+uranus
+neptune
+	
+[time controls]
+[pause - play - increment]
+[time slider]
+
+-->
+	
+
+</body>
+
+
+</html>

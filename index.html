@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+	<script src="src/js/three.min.js"></script>
+	<script src="src/js/Detector.js"></script>
+	<!--<script src="src/js/OrbitControls.js"></script>-->
+
+	<script src="src/js/stats.min.js"></script>
+	
+	<script src="src/js/shaders/CopyShader.js"></script>
+	<script src="src/js/shaders/ConvolutionShader.js"></script>
+	<script src="src/js/shaders/LuminosityHighPassShader.js"></script>
+	
+	<script src="src/js/postprocessing/EffectComposer.js"></script>
+	<script src="src/js/postprocessing/RenderPass.js"></script>
+	<script src="src/js/postprocessing/ShaderPass.js"></script>
+	<script src="src/js/postprocessing/UnrealBloomPass.js"></script>
+
+	
+	
+	<script src="src/js/jquery.js"></script>
+	
+	<script src="src/js/angular.min.js"></script>
+	<script src="src/js/material.min.js"></script>
+	
+	
+	<script src="src/js/app/app.js"></script>
+	<script src="src/js/app/utils.js"></script>
+	<script src="src/js/app/controllers.js"></script>
+	<script src="src/js/app/main.js"></script>
+	<script src="src/js/app/attributes.js"></script>
+	<script src="src/js/app/planets.js"></script>
+	<script src="src/js/app/state.js"></script>
+	<script src="src/js/app/physics.js"></script>
+	<script src="src/js/app/ui.js"></script>
+	<script src="src/js/app/camera.js"></script>
+	
+
+	
+	<link rel="stylesheet" href="src/css/material.min.css">
+	<link rel="stylesheet" href="src/css/material.color.css">
+	<link rel="stylesheet" href="src/css/styles.css">
+	<link href="https://fonts.googleapis.com/css?family=Orbitron|Armata" rel="stylesheet">
+</head>
+
+
+<body ng-app="angularApp" ng-controller="mainController" ng-cloak>
+<div id="ui">
+</div>
+<div id="navPanel">
+	<div class="navOrnamentTop"></div>
+	<div id="navTitle"><span>Solar System</span></div>
+	<div class="panelBreak"><div class="panelBreakLine"></div></div>
+	<div id="sunnav" class="panelTarget panelCell"><span>Sun</span></div>
+	<div id="mercurynav" class="panelTarget panelCell"><span>Mercury</span></div>
+	<div id="venusnav" class="panelTarget panelCell"><span>Venus</span></div>
+	<div class="panelParent panelCell"><span>Earth</span>
+		<div class="panelChild">
+			<div id="earthnav" class="panelTarget panelCell"><span>Earth</span></div>
+			<div id="moonnav" class="panelTarget panelCell"><span>Moon</span></div>
+		</div>
+	</div>
+	<div class="panelParent panelCell"><span>Mars</span>
+		<div class="panelChild">
+			<div id="marsnav" class="panelTarget panelCell"><span>Mars</span></div>
+			<div id="phobosnav" class="panelTarget panelCell"><span>Phobos</span></div>
+			<div id="deimosnav" class="panelTarget panelCell"><span>Deimos</span></div>
+		</div>
+	</div>
+	<div id="jupternav" class="panelTarget panelCell"><span>Jupiter</span></div>
+	<div id="saturnnav" class="panelTarget panelCell"><span>Saturn</span></div>
+	<div id="uranusnav" class="panelTarget panelCell"><span>Uranus</span></div>
+	<div id="neptunenav" class="panelTarget panelCell"><span>Neptune</span></div>
+
+	<div class="panelBreak"><div class="panelBreakLine"></div></div>
+	
+	<div class="panelCell">Time:
+		<span id="panelTime">-.-x</span>
+	</div>
+	
+	<div id="panelTimeControls" class="panelCell">
+		<div id="panel08" class="panelButton">x0.8</div>
+		<div id="panel10" class="panelButton">1.0</div>
+		<div id="panel12" class="panelButton">x1.2</div>
+	</div>
+
+	<div class="panelCell">
+	<p style="width: 200px;">
+		<input id="panelSlider" class="mdl-slider mdl-js-slider" type="range" min="0" max="2000" value="25" step="2" tabindex="0">
+		</p>
+	</div>
+	
+	<div class="panelBreak"><div class="panelBreakLine"></div></div>
+	
+	<div class="panelCell">Target: <span id="panelTargetText"></span></div>
+	<div class="panelCell panelNumber"><span class="panelCoord">X: <span id="panelx"></span><span class="panelau"> AU</span></span></div>
+	<div class="panelCell panelNumber"><span class="panelCoord">Y: <span id="panely"></span><span class="panelau"> AU</span></span></div>
+	<div class="panelCell panelNumber"><span class="panelCoord">Z: <span id="panelz"></span><span class="panelau"> AU</span></span></div>
+	
+	<div class="panelShortBreak"></div>
+	
+	<div class="panelCell panelNumber"><span class="panelVelTxt">Velocity: <span id="panelVelocity"></span><span class="panelms"> m/s</span></span></div>
+	
+	<div class="panelShortBreak"></div>
+	
+	<div class="panelCell">Velocity Unit Vector:</div>
+	<div id="panelUnit" class="panelCell panelNumber"></div>
+	
+	<div class="panelBreak"><div class="panelBreakLine"></div></div>
+	
+	<div class="navOrnamentBot"></div>
+</div>
+</body>
+
+
+</html>
