@@ -1,5 +1,5 @@
 # solarsystem
-Purpose: learn WebGL, implement n-body, design responsive UI
+Purpose: Tinkering project, learn WebGL/THREE.js, implement n-body, design responsive UI using CSS Transitions/Animations
 
 Work still in progress (2/19/2017)
 
