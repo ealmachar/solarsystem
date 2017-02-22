@@ -1,4 +1,4 @@
-app.service('camera', ['planets', 'attributes', 'state', function(planets, attributes, state){
+app.service('camera', ['planets', 'attributes', 'state', 'effects', function(planets, attributes, state, effects){
 	var camera = new THREE.PerspectiveCamera(camerafov, window.innerWidth / window.innerHeight, 0.01, 999999999999 );
 	
 	var theta = 0; // camera's horizontal plane coordinate = starting coordinate
@@ -31,8 +31,6 @@ app.service('camera', ['planets', 'attributes', 'state', function(planets, attri
 	var flyStart = new THREE.Vector3();
 	var flyProgress = 0;
 	var flyMax = 200;
-	
-
 
 	
 
@@ -274,7 +272,7 @@ app.service('camera', ['planets', 'attributes', 'state', function(planets, attri
 		focused = true;
 
 		this.initFlyTravel(obj);
-		if( options.flying && options.flyingRotate ){
+		if( state.options.flying && state.options.flyingRotate ){
 			this.initFlyRotate(obj);
 		}
 	}
@@ -330,9 +328,6 @@ app.service('camera', ['planets', 'attributes', 'state', function(planets, attri
 		//			rotateInterval = theta - rotateEnd;
 	}
 	
-	var flyIncrement = 1;
-	var flyStep = flyIncrement;
-	
 	// called per render tick to calculate camera movement and radius when flying
 	this.flyTick = function(){
 
@@ -373,8 +368,6 @@ app.service('camera', ['planets', 'attributes', 'state', function(planets, attri
 		radius = radiusEnd + ( radiusStart - radiusEnd ) * ( 1 - stepModifier );
 
 		cameraApply();
-
-//		flyStep = flyIncrement * ( 1 - flyProgress/flyMax );
 		
 		flyProgress += 1;
 		
@@ -426,9 +419,10 @@ app.service('camera', ['planets', 'attributes', 'state', function(planets, attri
 
 		
 		if( this.cameraFly && flying ){
-			if( !options.flying )
+			if( !state.options.flying )
 				flyProgress = flyMax;
 			this.flyTick();
+			effects.tick();
 		}
 		else if(focused){
 

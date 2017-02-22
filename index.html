@@ -12,6 +12,7 @@
 	<script src="src/js/shaders/CopyShader.js"></script>
 	<script src="src/js/shaders/ConvolutionShader.js"></script>
 	<script src="src/js/shaders/LuminosityHighPassShader.js"></script>
+	<script src="src/js/shaders/FXAAShader.js"></script>
 	
 	<script src="src/js/postprocessing/EffectComposer.js"></script>
 	<script src="src/js/postprocessing/RenderPass.js"></script>
@@ -25,6 +26,7 @@
 	<script src="src/js/angular.min.js"></script>
 	<script src="src/js/material.min.js"></script>
 	
+	<script src="src/js/app/textures.js"></script>
 	
 	<script src="src/js/app/app.js"></script>
 	<script src="src/js/app/utils.js"></script>
@@ -36,6 +38,8 @@
 	<script src="src/js/app/physics.js"></script>
 	<script src="src/js/app/ui.js"></script>
 	<script src="src/js/app/camera.js"></script>
+	<script src="src/js/app/audio.js"></script>
+	<script src="src/js/app/effects.js"></script>
 	
 
 	
@@ -43,6 +47,7 @@
 	<link rel="stylesheet" href="src/css/material.color.css">
 	<link rel="stylesheet" href="src/css/styles.css">
 	<link href="https://fonts.googleapis.com/css?family=Orbitron|Armata" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
 
@@ -69,10 +74,42 @@
 			<div id="deimosnav" class="panelTarget panelCell"><span>Deimos</span></div>
 		</div>
 	</div>
-	<div id="jupternav" class="panelTarget panelCell"><span>Jupiter</span></div>
-	<div id="saturnnav" class="panelTarget panelCell"><span>Saturn</span></div>
-	<div id="uranusnav" class="panelTarget panelCell"><span>Uranus</span></div>
-	<div id="neptunenav" class="panelTarget panelCell"><span>Neptune</span></div>
+	<div class="panelParent panelCell"><span>Jupiter</span>
+		<div class="panelChild">
+			<div id="jupiternav" class="panelTarget panelCell"><span>Jupiter</span></div>
+			<div id="ionav" class="panelTarget panelCell"><span>Io</span></div>
+			<div id="europanav" class="panelTarget panelCell"><span>Europa</span></div>
+			<div id="ganymedenav" class="panelTarget panelCell"><span>Ganymede</span></div>
+			<div id="callistonav" class="panelTarget panelCell"><span>Callisto</span></div>
+		</div></div>
+	<div class="panelParent panelCell"><span>Saturn</span>
+		<div class="panelChild">
+			<div id="saturnnav" class="panelTarget panelCell"><span>Saturn</span></div>
+			<div id="mimasnav" class="panelTarget panelCell"><span>Mimas</span></div>
+			<div id="enceladusnav" class="panelTarget panelCell"><span>Enceladus</span></div>
+			<div id="tethysnav" class="panelTarget panelCell"><span>Tethys</span></div>
+			<div id="dionenav" class="panelTarget panelCell"><span>Dione</span></div>
+			<div id="rheanav" class="panelTarget panelCell"><span>Rhea</span></div>
+			<div id="titannav" class="panelTarget panelCell"><span>Titan</span></div>
+			<div id="iapetusnav" class="panelTarget panelCell"><span>Iapetus</span></div>
+		</div>
+	</div>
+	<div class="panelParent panelCell"><span>Uranus</span>
+		<div class="panelChild">
+			<div id="uranusnav" class="panelTarget panelCell"><span>Uranus</span></div>
+			<div id="arielnav" class="panelTarget panelCell"><span>Ariel</span></div>
+			<div id="umbrielnav" class="panelTarget panelCell"><span>Umbriel</span></div>
+			<div id="titanianav" class="panelTarget panelCell"><span>Titania</span></div>
+			<div id="oberonnav" class="panelTarget panelCell"><span>Oberon</span></div>
+			<div id="mirandanav" class="panelTarget panelCell"><span>Miranda</span></div>
+		</div>
+	</div>
+	<div class="panelParent panelCell"><span>Neptune</span>
+		<div class="panelChild">
+			<div id="neptunenav" class="panelTarget panelCell"><span>Neptune</span></div>
+			<div id="tritonnav" class="panelTarget panelCell"><span>Triton</span></div>
+		</div>
+	</div>
 
 	<div class="panelBreak"><div class="panelBreakLine"></div></div>
 	
@@ -82,15 +119,27 @@
 	
 	<div id="panelTimeControls" class="panelCell">
 		<div id="panel08" class="panelButton">x0.8</div>
-		<div id="panel10" class="panelButton">1.0</div>
+		<div id="panel10" class="panelButton">=1.0</div>
 		<div id="panel12" class="panelButton">x1.2</div>
 	</div>
-
-	<div class="panelCell">
-	<p style="width: 200px;">
-		<input id="panelSlider" class="mdl-slider mdl-js-slider" type="range" min="0" max="2000" value="25" step="2" tabindex="0">
-		</p>
+	
+	<div id="panelTimeControls" class="panelCell">
+		<div class="panelButton tooltip">
+			<i id="panelFlyOn" class="material-icons panelIcon">airplanemode_active</i>
+			<i id="panelFlyOff" class="material-icons panelIcon">airplanemode_inactive</i>
+			<span class="tooltiptext">Toggle flight mode</span>
+		</div>
+		<div class="panelButton tooltip">
+			<i id="panelTextAnim" class="material-icons panelIcon">wrap_text</i>
+			<span class="tooltiptext">Toggle text animations</span>
+		</div>
+		<div class="panelButton">
+			<i id="panelVolOn" class="material-icons panelIcon">volume_up</i>
+			<i id="panelVolOff" class="material-icons panelIcon">volume_off</i>
+		</div>
 	</div>
+
+	<!--<div class="panelCell"><input id="panelSlider" class="mdl-slider mdl-js-slider" type="range" min="0" max="2000" value="25" step="2" tabindex="0"></div>-->
 	
 	<div class="panelBreak"><div class="panelBreakLine"></div></div>
 	
@@ -101,7 +150,12 @@
 	
 	<div class="panelShortBreak"></div>
 	
-	<div class="panelCell panelNumber"><span class="panelVelTxt">Velocity: <span id="panelVelocity"></span><span class="panelms"> m/s</span></span></div>
+	<!--<div class="panelCell panelNumber"><span class="panelVelTxt">Velocity: <span id="panelVelocity"></span><span class="panelms"> m/s</span></span></div>-->
+	<div class="panelCell panelNumber">
+		<span class="panelVelTxt">Velocity: </span>
+		<span id="panelVelocity"></span>
+		<span class="panelms"> m/s</span>
+	</div>
 	
 	<div class="panelShortBreak"></div>
 	

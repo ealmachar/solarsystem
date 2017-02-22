@@ -24,7 +24,6 @@ body{
     height: 2em;
 }
 
-
 /*
 
 ui nameplates for celestials
@@ -64,7 +63,6 @@ an exhibit panel
 	border-bottom: 0px solid transparent;
 	
 	transition: padding-left 0.5s, font-size 0.5s, width 0.5s, top 0.5s;
-	z-index: 1;
 }
 
 .tagName:hover{
@@ -119,7 +117,7 @@ an exhibit panel
 	
 	transition: height 0.5s, width 0.5s;
 	
-
+	z-index: 2;
 }
 
 .phase1.exhibit{
@@ -146,12 +144,40 @@ an exhibit panel
 
 .phase1.ornament1{
 	width: 210px;
-}
-
-.phase2.ornament1{
 	border-top: 7px solid rgba(70, 130, 180, 0.9);
     border-right: 10px solid transparent;
 	border-left: 10px solid transparent;
+}
+
+.exbutton{
+	opacity: 0;
+	
+	transition: opacity 0.5s
+}
+
+.phase1.exbutton{
+    position: absolute;
+    width: 75px;
+    right: -50px;
+    top: -30px;
+	
+	opacity: 1;
+	
+    border-bottom: 15px solid rgba(70, 130, 180, 0.33);
+    border-right: 50px solid transparent;
+    border-left: 50px solid transparent;
+}
+
+.phase1.exbuttontxt{
+	position: absolute;
+    left: 10px;
+    top: 5px;
+    color: rgba(70, 130, 180, 1);
+    font-size: 20px;
+}
+
+.phase1.exbuttontxt:hover{
+	color: rgba(98, 182, 252, 1);
 }
 
 /*
@@ -206,7 +232,7 @@ an exhibit panel
 .phase1.tagBot{
 	width: 380px;
 	left: 25px;
-	border-top: 15px solid rgba(70, 130, 180, 0.1);
+	border-top: 15px solid rgba(70, 130, 180, 0.4);
 	border-right: 50px solid transparent;
 	border-left: 50px solid transparent;
 }
@@ -301,7 +327,8 @@ navigation panel
 	top: 25px;
 	
 	color: rgba(70, 130, 180, 1);
-
+	z-index: 2;
+	
 	text-align: center;
 }
 
@@ -389,7 +416,7 @@ navigation panel
 }
 
 #panelTimeControls{
-	padding: 10px 12.5%;
+	padding: 5px 12.5%;
 	display: flex;
 }
 
@@ -413,6 +440,18 @@ navigation panel
 	left: 30px;
 }
 
+.panelIcon{
+	font-size: 20px !important;
+    position: relative;
+    top: 0px;
+	width: 100%;
+}
+
+i#panelVolOn, i#panelFlyOn, #panelTextAnim.textOn{
+	color: rgba(0, 0, 0, 1);
+	background-color: rgba(70, 130, 180, .9);
+}
+
 .panelNumber.flash{
 	animation-name: flash;
 	animation-duration: 0.5s;
@@ -424,13 +463,19 @@ navigation panel
 }
 
 .panelVelTxt{
-	position: absolute;
-	left: 10px;
+	text-align: right;
+    float: left;
+    width: 75px;
 }
 
 .panelms{
-	position: absolute;
-	left: 150px;
+	float: right;
+    text-align: left;
+    width: 40px;
+}
+
+#panelUnit{
+	font-size: 12px;
 }
 
 @keyframes flash{
@@ -461,18 +506,43 @@ navigation panel
 
 
 
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    font-size: 12px;
+    color: #ccc;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 3;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+
 
 
 #sunimage{
-	background-image: url('../images/planetimage/sun.png');
+	background-image: url('../images/planetimage/sun.jpg');
 }
 
 #mercuryimage{
-	background-image: url('../images/planetimage/mercury.png');
+	background-image: url('../images/planetimage/mercury.jpg');
 }
 
 #venusimage{
-	background-image: url('../images/planetimage/venus.png');
+	background-image: url('../images/planetimage/venus.jpg');
 }
 
 #earthimage{
@@ -480,18 +550,101 @@ navigation panel
 }
 
 #moonimage{
-	background-image: url('../images/planetimage/moon.png');
+	background-image: url('../images/planetimage/moon.jpg');
 }
 
 #marsimage{
-	background-image: url('../images/planetimage/mars.png');
+	background-image: url('../images/planetimage/mars.jpg');
 }
 
 #phobosimage{
-	background-image: url('../images/planetimage/phobos.png');
+	background-image: url('../images/planetimage/phobos.jpg');
 }
 
 #deimosimage{
-	background-image: url('../images/planetimage/deimos.png');
+	background-image: url('../images/planetimage/deimos.jpg');
 }
 
+#jupiterimage{
+	background-image: url('../images/planetimage/jupiter.jpg');
+}
+
+#ioimage{
+	background-image: url('../images/planetimage/io.jpg');
+}
+
+#europaimage{
+	background-image: url('../images/planetimage/europa.jpg');
+}
+
+#ganymedeimage{
+	background-image: url('../images/planetimage/ganymede.jpg');
+}
+
+#callistoimage{
+	background-image: url('../images/planetimage/callisto.jpg');
+}
+
+#saturnimage{
+	background-image: url('../images/planetimage/saturn.jpg');
+}
+
+#mimasimage{
+	background-image: url('../images/planetimage/mimas.jpg');
+}
+
+#enceladusimage{
+	background-image: url('../images/planetimage/enceladus.jpg');
+}
+
+#tethysimage{
+	background-image: url('../images/planetimage/tethys.jpg');
+}
+
+#dioneimage{
+	background-image: url('../images/planetimage/dione.jpg');
+}
+
+#rheaimage{
+	background-image: url('../images/planetimage/rhea.jpg');
+}
+
+#titanimage{
+	background-image: url('../images/planetimage/titan.jpg');
+}
+
+#iapetusimage{
+	background-image: url('../images/planetimage/iapetus.jpg');
+}
+
+#uranusimage{
+	background-image: url('../images/planetimage/uranus2.jpg');
+}
+
+#arielimage{
+	background-image: url('../images/planetimage/ariel.jpg');
+}
+
+#umbrielimage{
+	background-image: url('../images/planetimage/umbriel.jpg');
+}
+
+#titaniaimage{
+	background-image: url('../images/planetimage/titania.jpg');
+}
+
+#oberonimage{
+	background-image: url('../images/planetimage/oberon.jpg');
+}
+
+#mirandaimage{
+	background-image: url('../images/planetimage/miranda.jpg');
+}
+
+#neptuneimage{
+	background-image: url('../images/planetimage/neptune.jpg');
+}
+
+#tritonimage{
+	background-image: url('../images/planetimage/triton.jpg');
+}

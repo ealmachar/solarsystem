@@ -1,68 +1,19 @@
 var cel;
 app.service('planets', ['attributes', function(attributes){
-	var loader = new THREE.TextureLoader();
-	var sphereDetail = 256;
+
+	var sphereDetail = 32;
 
 	this.universe = new THREE.Group();
 	
 	this.stars = new THREE.Group();
 	
-	this.celestials = {
-		sun: new THREE.Group(),
-		mercury: new THREE.Group(),
-		venus: new THREE.Group(),
-		earth: new THREE.Group(),
-		moon: new THREE.Group(),
-		mars: new THREE.Group(),
-		phobos: new THREE.Group(),
-		deimos: new THREE.Group(),
-	};
+	this.celestials = {};
 	
 	this.sunCorona = new THREE.Group();
 	
-	this.earthSurface = new THREE.Mesh();
-	this.earthClouds = new THREE.Mesh();
-	
-	this.venusSurface = new THREE.Mesh();
-	this.venusClouds = new THREE.Mesh();
 
 	
-	
 
-	
-	
-	var starTexture = loadTexture('src/images/stars+milky_way.jpg');
-
-	var sunTexture = loadTexture('src/images/sun/texture_sun.jpg');
-	var coronaTexture = loadTexture('src/images/sun/lensflare0.png');
-	var coronaTextureFar = loadTexture('src/images/sun/lensflare1.png');
-
-	var mercuryTexture = loadTexture('src/images/mercury/2k_mercury.jpg');
-
-	var venusTexture = loadTexture('src/images/venus/2k_venus_surface.jpg');
-	var venusClouds = loadTexture('src/images/venus/2k_venus_atmosphere.jpg');
-
-
-	/*
-	var earthTexture = loadTexture('src/images/earth/earth_daymap.jpg');
-	var earthBumpmap = loadTexture('src/images/earth/earthbump1k.jpg');
-	var earthSpecular = loadTexture('src/images/earth/2k_earth_specular_map.jpg')
-	var earthEmissive = loadTexture('src/images/earth/earth_nightmap.jpg')
-	var cloudTexture = loadTexture('src/images/earth/earth_clouds.jpg');
-	var moonTexture = loadTexture('src/images/earth/moon.jpg');
-	*/
-
-	// low res textures
-	var earthTexture = loadTexture('src/images/earth/2k_earth_daymap.jpg');
-	var earthBumpmap = loadTexture('src/images/earth/earthbump1k.jpg');
-	var earthSpecular = loadTexture('src/images/earth/2k_earth_specular_map.jpg')
-	var earthEmissive = loadTexture('src/images/earth/2k_earth_nightmap.jpg')
-	var cloudTexture = loadTexture('src/images/earth/2k_earth_clouds.jpg');
-	var moonTexture = loadTexture('src/images/earth/2k_moon.jpg');
-
-	var marsTexture = loadTexture('src/images/mars/2k_mars.jpg');
-	var phobosTexture = loadTexture('src/images/mars/phobos_low.jpg');
-	var deimosTexture = loadTexture('src/images/mars/deimos_high.jpg');
 	
 	
 	/*
@@ -78,6 +29,21 @@ app.service('planets', ['attributes', function(attributes){
 	}
 */
 
+	// render star field
+	this.renderStars = function(scene, radius){
+		var starGeometry  = new THREE.SphereGeometry(90, 32, 32)
+		var starMaterial  = new THREE.MeshBasicMaterial({
+			map: starTexture,
+			side: THREE.BackSide
+		});
+		
+		var starMesh  = new THREE.Mesh(starGeometry, starMaterial);
+		this.stars.add(starMesh);
+		this.stars.scale.set(radius,radius,radius);
+		scene.add(this.stars);
+
+	}
+	
 	
 	
 	// render sun object and sub objects
@@ -88,24 +54,22 @@ app.service('planets', ['attributes', function(attributes){
 	
 	this.renderSun = function(group){
 		
-		var sun = new THREE.Group();
-		var corona = this.sunCorona;
-		var coronaScale = 18;
-		
 		var sunRadius = attributes.sunSystem.sun.radius;
-		var sunGeometry = new THREE.SphereGeometry(sunRadius, sphereDetail, sphereDetail);
-		this.sunMaterial = new THREE.MeshLambertMaterial({
+		
+		var sunObj = {
 			map: sunTexture,
 			emissive: 0xffffff,
 			emissiveMap: sunTexture,
 			emissiveIntensity: 1
-		});
-		var sunMesh = new THREE.Mesh(sunGeometry, this.sunMaterial);
-		sunMesh.name = "sun";
-		sun.add(sunMesh);
-		this.celestials.sun.add(sun);
+		}
 		
+		this.createPlanetMesh( attributes.sunSystem, sunObj, 'sun' );
+		
+		this.sunMaterial = this.celestials.sun.getObjectByName('sun').material;
 
+		var corona = this.sunCorona;
+		var coronaScale = 18;
+		
 		// this mesh is the 1st and 2nd (cloned) corona of the sun
 		// both puslating in separate phases and rotating in opposite directions in sunAnimate()
 		var coronaGeometry = new THREE.PlaneGeometry( sunRadius * coronaScale, sunRadius * coronaScale, 1 );
@@ -133,14 +97,6 @@ app.service('planets', ['attributes', function(attributes){
 		this.coronaPlane2.rotateZ(Math.PI);
 		
 		this.coronaPlane3 = new THREE.Mesh(coronaGeometry, coronaMaterialFar);
-		
-		/*
-		this.coronaPlane1.position.x = attributes.sunSystem.sun.radius * 4;
-		this.coronaPlane2.position.x = -attributes.sunSystem.sun.radius * 4;
-
-		this.coronaPlane1.position.z = attributes.sunSystem.sun.radius * 4;
-		this.coronaPlane1.position.z = -attributes.sunSystem.sun.radius * 4;
-*/
 		
 		corona.add( this.coronaPlane1 );
 		corona.add( this.coronaPlane2 );
@@ -220,68 +176,32 @@ app.service('planets', ['attributes', function(attributes){
 	
 	
 
-	// render mercury
 	this.renderMercury = function(group){
-		var mercuryRadius = attributes.mercurySystem.mercury.radius;
-		var mercuryGeometry = new THREE.SphereGeometry(mercuryRadius, sphereDetail, sphereDetail);
-		var mercuryMaterial = new THREE.MeshLambertMaterial({
-			map: mercuryTexture
-		});
-		var mercuryMesh = new THREE.Mesh(mercuryGeometry, mercuryMaterial);
-		mercuryMesh.name = "mercury";
-		this.celestials.mercury.add(mercuryMesh);
-		group.add(this.celestials.mercury);
+		this.createPlanetMesh( attributes.mercurySystem, {map: mercuryTexture}, 'mercury' );
 	}
 	
 	
-	
-	// render venus
+
 	this.renderVenus = function(group){
 
-		var venusRadius = attributes.venusSystem.venus.radius;
-		var venusGeometry = new THREE.SphereGeometry(venusRadius, sphereDetail, sphereDetail);
-		var venusMaterial = new THREE.MeshLambertMaterial({
-			map: venusTexture
-		});
-		this.venusSurface.geometry = venusGeometry;
-		this.venusSurface.material = venusMaterial;
-		this.venusSurface.name = "venus";
-		this.celestials.venus.add(this.venusSurface);
-		
-		var cloudGeometry = new THREE.SphereGeometry(venusRadius*1.015, sphereDetail, sphereDetail)
-		var cloudMaterial = new THREE.MeshPhongMaterial({
+		this.createPlanetMesh( attributes.venusSystem, {map: venusTexture}, 'venus' );
+
+		var venusAtmMat = {
 			map : venusClouds,
 			alphaMap: venusClouds,
-			opacity: 0.75,
+			opacity: 1.1,
 			transparent: true,
 			depthWrite: false
-		})
-		this.venusClouds.geometry = cloudGeometry;
-		this.venusClouds.material = cloudMaterial;
-		this.celestials.venus.add(this.venusClouds);
+		}
 		
-		group.add(this.celestials.venus);
+		this.createPlanetAtmosphere( attributes.venusSystem, venusAtmMat, 'venus' );
 	}
 	
 	
-	
-	// render earth:
+
 	this.renderEarth = function(group){
 
-		var earth = this.earthSurface;
-		var clouds = this.earthClouds;
-		var moon = this.celestials.moon;
-		
-		this.celestials.earth.add(earth);
-		this.celestials.earth.add(clouds);
-		group.add( this.celestials.earth );
-		group.add( moon );
-
-
-		// render earth surface
-		var earthRadius = attributes.earthSystem.earth.radius;
-		var earthGeometry = new THREE.SphereGeometry(earthRadius, sphereDetail, sphereDetail);
-		var earthMaterial = new THREE.MeshPhongMaterial({
+		var earthObj = {
 			map: earthTexture,
 			bumpMap: earthBumpmap,
 			bumpScale: attributes.planetScale,
@@ -290,82 +210,167 @@ app.service('planets', ['attributes', function(attributes){
 			emissive: 0xffffff,
 			emissiveMap: earthEmissive,
 			emissiveIntensity: 1
-		});
-		earth.geometry = earthGeometry;
-		earth.material = earthMaterial;
-		earth.name = "earth";
+		}
+		this.createPlanetMesh( attributes.earthSystem, earthObj, 'earth' )
 
-		// render earth clouds
-		var cloudGeometry = new THREE.SphereGeometry(earthRadius*1.01, sphereDetail, sphereDetail)
-		var cloudMaterial = new THREE.MeshPhongMaterial({
+		var earthAtmObj = {
 			map : cloudTexture,
 			alphaMap: cloudTexture,
 			opacity: 1,
 			transparent: true,
 			depthWrite: false
-		})
-		clouds.geometry = cloudGeometry;
-		clouds.material = cloudMaterial;
-		
-		// render moon
-		var moonRadius = attributes.earthSystem.moon.radius;
-		var moonGeometry = new THREE.SphereGeometry(moonRadius, sphereDetail, sphereDetail);
-		var moonMaterial = new THREE.MeshLambertMaterial({
-			map: moonTexture
-		});
-		var moonMesh = new THREE.Mesh(moonGeometry, moonMaterial);
-		moonMesh.name = "moon";
-		moon.add(moonMesh);
-	}
-	
-	// render mars
-	this.renderMars = function(group){		
-		var marsRadius = attributes.marsSystem.mars.radius;
-		var marsGeometry = new THREE.SphereGeometry(marsRadius, sphereDetail, sphereDetail);
-		var marsMaterial = new THREE.MeshLambertMaterial({
-			map: marsTexture
-		});
-		var marsMesh = new THREE.Mesh(marsGeometry, marsMaterial);
-		marsMesh.name = "mars";
-		this.celestials.mars.add(marsMesh);
-		group.add(this.celestials.mars);
-		
-		var phobosRadius = attributes.marsSystem.phobos.radius;
-		var phobosGeometry = new THREE.SphereGeometry(phobosRadius, sphereDetail, sphereDetail);
-		var phobosMaterial = new THREE.MeshLambertMaterial({
-			map: phobosTexture
-		});
-		var phobosMesh = new THREE.Mesh(phobosGeometry,phobosMaterial);
-		phobosMesh.name = "phobos";
-		this.celestials.phobos.add(phobosMesh);
-		group.add(this.celestials.phobos);
-		
-		
-		var deimosRadius = attributes.marsSystem.deimos.radius;
-		var deimosGeometry = new THREE.SphereGeometry(deimosRadius, sphereDetail, sphereDetail);
-		var deimosMaterial = new THREE.MeshLambertMaterial({
-			map: deimosTexture
-		});
-		var deimosMesh = new THREE.Mesh(deimosGeometry,deimosMaterial);
-		deimosMesh.name = "deimos";
-		this.celestials.deimos.add(deimosMesh);
-		group.add(this.celestials.deimos);
-	}
-	
-	// render star field
-	this.renderStars = function(scene, radius){
-		var starGeometry  = new THREE.SphereGeometry(90, 32, 32)
-		var starMaterial  = new THREE.MeshBasicMaterial({
-			map: starTexture,
-			side: THREE.BackSide
-		});
-		
-		var starMesh  = new THREE.Mesh(starGeometry, starMaterial);
-		this.stars.add(starMesh);
-		this.stars.scale.set(radius,radius,radius);
-		scene.add(this.stars);
+		}
+		this.createPlanetAtmosphere( attributes.earthSystem, earthAtmObj, 'earth' )
 
+		this.createPlanetMesh( attributes.earthSystem, {map: moonTexture}, 'moon' );
 	}
+	
+
+	
+	this.renderMars = function(group){		
+		this.createPlanetMesh( attributes.marsSystem, {map: marsTexture}, 'mars' );
+		this.createPlanetMesh( attributes.marsSystem, {map: phobosTexture}, 'phobos' );
+		this.createPlanetMesh( attributes.marsSystem, {map: deimosTexture}, 'deimos' );
+	}
+	
+
+
+	
+	this.renderJupiter = function(group){
+		this.createPlanetMesh( attributes.jupiterSystem, {map: jupiterTexture}, 'jupiter' );
+		this.createPlanetMesh( attributes.jupiterSystem, {map: ioTexture}, 'io' );
+		this.createPlanetMesh( attributes.jupiterSystem, {map: europaTexture}, 'europa' );
+		this.createPlanetMesh( attributes.jupiterSystem, {map: ganymedeTexture}, 'ganymede' );
+		this.createPlanetMesh( attributes.jupiterSystem, {map: callistoTexture}, 'callisto' );
+	}
+	
+
+	
+	this.renderSaturn = function(group){
+		this.createPlanetMesh( attributes.saturnSystem, {map: saturnTexture}, 'saturn' );
+		this.createPlanetMesh( attributes.saturnSystem, {map: mimasTexture}, 'mimas' );
+		this.createPlanetMesh( attributes.saturnSystem, {map: enceladusTexture}, 'enceladus' );
+		this.createPlanetMesh( attributes.saturnSystem, {map: tethysTexture}, 'tethys' );
+		this.createPlanetMesh( attributes.saturnSystem, {map: dioneTexture}, 'dione' );
+		this.createPlanetMesh( attributes.saturnSystem, {map: rheaTexture}, 'rhea' );
+		this.createPlanetMesh( attributes.saturnSystem, {map: titanTexture}, 'titan' );
+		this.createPlanetMesh( attributes.saturnSystem, {map: iapetusTexture}, 'iapetus' );
+		
+		var titanAtmMat = {
+			map : titanAtmosphere,
+			opacity: 0.9,
+			transparent: true,
+			depthWrite: false
+		}
+		
+		this.createPlanetAtmosphere( attributes.saturnSystem, titanAtmMat, 'titan' );
+
+		var saturnRingObj = {
+			map: saturnRingTexture,
+			opacity: 1,
+			transparent: true,
+			side: THREE.DoubleSide
+		}
+		
+		var rings = this.createPlanetRings( attributes.saturnSystem, saturnRingObj, 'saturn', 74500, 140220 );
+		rings.rotateX(Math.PI/2);
+	}
+	
+	
+	this.renderUranus = function(group){
+		this.createPlanetMesh( attributes.uranusSystem, {map: uranusTexture}, 'uranus' );
+		this.createPlanetMesh( attributes.uranusSystem, {map: arielTexture}, 'ariel' );
+		this.createPlanetMesh( attributes.uranusSystem, {map: umbrielTexture}, 'umbriel' );
+		this.createPlanetMesh( attributes.uranusSystem, {map: titaniaTexture}, 'titania' );
+		this.createPlanetMesh( attributes.uranusSystem, {map: oberonTexture}, 'oberon' );
+		this.createPlanetMesh( attributes.uranusSystem, {map: mirandaTexture}, 'miranda' );
+		
+		var uranusRingObj = {
+			map: uranusRingTexture,
+			alphaMap: uranusRingAlpha,
+			opacity: 0.6,
+			transparent: true,
+			side: THREE.DoubleSide
+		}
+		
+		var rings = this.createPlanetRings( attributes.uranusSystem, uranusRingObj, 'uranus', 41837, 51149 );
+		rings.rotateX(Math.PI/2);
+	}
+	
+	this.renderNeptune = function(group){
+		this.createPlanetMesh( attributes.neptuneSystem, {map: neptuneTexture}, 'neptune' );
+		this.createPlanetMesh( attributes.neptuneSystem, {map: tritonTexture}, 'triton' );
+	}
+	
+	this.createPlanetMesh = function( system, materialObj, celestial ){
+		var radius = system[celestial].radius;
+		var geometry = new THREE.SphereGeometry( radius, sphereDetail, sphereDetail );
+		var material;
+		if(celestial == 'earth')
+			material = new THREE.MeshPhongMaterial(materialObj);
+		else
+			material = new THREE.MeshLambertMaterial(materialObj);
+		var mesh = new THREE.Mesh(geometry, material);
+		mesh.name = celestial;
+		
+		this.celestials[celestial] = new THREE.Group();
+		this.celestials[celestial].add(mesh);
+
+		this.universe.add(this.celestials[celestial]);
+		
+		if( typeof system[celestial].tilt !== 'undefined'){
+			this.celestials[celestial].rotateZ( - (system[celestial].tilt * (Math.PI*2)/360));
+		}
+	}
+	
+	this.createPlanetRings = function(system, materialObj, celestial, inner, outer){
+	
+		var ringGeometry = new THREE.RingGeometry( inner * attributes.planetScale, outer * attributes.planetScale, 64, 1 );
+
+		// http://stackoverflow.com/questions/20774648/three-js-generate-uv-coordinate
+		// http://paulyg.f2s.com/uv.htm
+		ringGeometry.faceVertexUvs[0].forEach(function(uv, uvindex){
+			
+			var side = uvindex % 2;
+
+			if(side == 0){
+				uv[0].x = 1;
+				uv[0].y = 0;
+				
+				uv[1].x = 1;
+				uv[1].y = 1;
+				
+				uv[2].x = 0;
+				uv[2].y = 0;
+			}
+			
+			if(side == 1){
+				uv[0].x = 1;
+				uv[0].y = 1;
+				
+				uv[1].x = 0;
+				uv[1].y = 1;
+				
+				uv[2].x = 0;
+				uv[2].y = 0;
+			}
+
+		});
+		var ringMaterial = new THREE.MeshBasicMaterial(materialObj);
+		var ringMesh = new THREE.Mesh( ringGeometry, ringMaterial );
+		this.celestials[celestial].add(ringMesh);
+		return ringMesh;
+	}
+	
+	this.createPlanetAtmosphere = function( system, materialObj, celestial){
+		var radius = system[celestial].radius;
+		var geometry = new THREE.SphereGeometry( radius * 1.015, sphereDetail, sphereDetail)
+		var material = new THREE.MeshPhongMaterial(materialObj)
+		var mesh = new THREE.Mesh(geometry, material);
+		mesh.name = celestial + 'Atm';
+		this.celestials[celestial].add(mesh);
+	};
+
 	
 	this.init = function(scene, radius){
 		var universe = this.universe;
@@ -378,6 +383,11 @@ app.service('planets', ['attributes', function(attributes){
 		this.renderVenus(universe);
 		this.renderEarth(universe);
 		this.renderMars(universe);
+		this.renderJupiter(universe);
+		this.renderSaturn(universe);
+		this.renderUranus(universe);
+		this.renderNeptune(universe);
+
 		
 		scene.add(universe);
 
@@ -389,27 +399,6 @@ app.service('planets', ['attributes', function(attributes){
 //		scene.add(this.scenes.earth);
 		
 //		this.force(scene);
-	}
-	
-	function loadTexture(url){
-		// load a resource
-		var texture = loader.load(
-			// resource URL
-			url,
-			// Function when resource is loaded
-			function ( texture ) {
-			},
-			// Function called when download progresses
-			function ( xhr ) {
-				console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
-			},
-			// Function called when download errors
-			function ( xhr ) {
-				console.log( 'Error loading texture: ' + url );
-			}
-		);
-
-		return texture;
 	}
 }]);
 

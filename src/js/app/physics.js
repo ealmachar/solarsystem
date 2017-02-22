@@ -1,20 +1,25 @@
 app.service('physics', ['planets', 'attributes', 'ui', 'state', function(planets, attributes, ui, state){
 	var g = 6.674E-11;
-	var earthSystem = planets.celestials;
+//	var earthSystem = planets.celestials;
 
+	var earth, earthClouds, moon;
+	var venusClouds;
 	
 	this.init = function(){
-
+		earth = planets.celestials.earth.getObjectByName('earth');
+		earthClouds = planets.celestials.earth.getObjectByName('earthAtm');
+		moon = planets.celestials.moon.getObjectByName('moon');;
+		venusClouds = planets.celestials.venus.getObjectByName('venusAtm');
 	}
 	
 	this.distance;
-
+	
 	this.tick = function(){
-		planets.earthSurface.rotation.y += 0.0001;
-		planets.earthClouds.rotation.y += 0.00013;
+		earth.rotation.y += 0.0001;
+		earthClouds.rotation.y += 0.00013;
+		venusClouds.rotation.y += 0.0002;
+		moon.lookAt(earth.getWorldPosition());
 
-		planets.venusSurface.rotation.y += 0.0001;
-		planets.venusClouds.rotation.y += 0.0002;
 /*		
 		var earth = attributes.earthSystem.earth;
 		var moon = attributes.earthSystem.moon;

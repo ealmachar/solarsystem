@@ -5,6 +5,14 @@ app.service('state', function(){
 	this.tMax = 5000;
 	this.t = 10;
 	
+	this.options = {
+		flying: true,
+		flyingRotate: false,
+		textAnimation: false,
+		isMuted: false,
+		unfurl: true
+	}
+	
 	
 	// http://stackoverflow.com/questions/9847580/how-to-detect-safari-chrome-ie-firefox-and-opera-browser
 	
@@ -28,4 +36,4 @@ app.service('state', function(){
 
 	// Blink engine detection
 	var isBlink = (this.isChrome || isOpera) && !!window.CSS;
-})
+});
