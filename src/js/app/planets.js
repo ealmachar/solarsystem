@@ -1,4 +1,3 @@
-var cel;
 app.service('planets', ['attributes', function(attributes){
 
 	var sphereDetail = 32;
@@ -16,18 +15,7 @@ app.service('planets', ['attributes', function(attributes){
 
 	
 	
-	/*
-	this.forceSphere = new THREE.Group();
-	this.force = function(group){
-		group.add(this.forceSphere);
-		
-		var radius = attributes.earthSystem.moon.radius / 2;
-		var sphereGeometry = new THREE.SphereGeometry(radius, sphereDetail, sphereDetail);
-		var sphereMaterial = new THREE.MeshPhongMaterial();
-		var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-		this.forceSphere.add(sphere);
-	}
-*/
+
 
 	// render star field
 	this.renderStars = function(scene, radius){
@@ -75,9 +63,7 @@ app.service('planets', ['attributes', function(attributes){
 		var coronaGeometry = new THREE.PlaneGeometry( sunRadius * coronaScale, sunRadius * coronaScale, 1 );
 		var coronaMaterial = new THREE.MeshBasicMaterial({
 			map: coronaTexture,
-//			blending: THREE.AdditiveBlending,
 			transparent: true,
-//			premultipliedAlpha: true,
 			opacity: 1,
 			alphaMap: coronaTexture,
 			depthWrite: false
@@ -395,10 +381,7 @@ app.service('planets', ['attributes', function(attributes){
 		for(var body in this.celestials){
 			this.celestials[body].name = body + "Group";
 		}
-		
-//		scene.add(this.scenes.earth);
-		
-//		this.force(scene);
+
 	}
 }]);
 

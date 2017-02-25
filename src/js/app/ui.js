@@ -48,24 +48,8 @@ app.service('ui', ['planets', 'camera', 'state', 'attributes', 'audio', function
 			stats.forEach(function(ele, i){
 				var newline = '<tr><td></td><td></td></tr>';
 				obj.find('.stats').append(newline);
-				/*
-				var statstr = ele.stat.split('');
-				var valstr = ele.value.split('');
-				
-				descriptions[body].statstrarr.push({
-					stat: statstr,
-					value: valstr
-				});*/
+
 			});
-
-			
-			//descriptions[body].stats = [];
-			
-			//descriptions[body].notestrarr = descriptions[body].note.split('');
-			//descriptions[body].notestrarr = '';
-			
-
-
 
 		}
 		
@@ -152,14 +136,7 @@ app.service('ui', ['planets', 'camera', 'state', 'attributes', 'audio', function
 				furl(obj);
 			}
 		});
-		
-		/*
-		angular.element('#panelSlider').change(function(){
-			console.log(angular.element(this));
-			var val = angular.element(this).value;
-			changeTime(val);
-		});
-		*/
+
 		
 		angular.element('.panelTarget, .panelParent, .panelButton').mouseenter(function(){
 			var sound = audio.sounds.tick;
@@ -206,10 +183,6 @@ app.service('ui', ['planets', 'camera', 'state', 'attributes', 'audio', function
 		else{
 			paneltextbttn.removeClass('textOn');
 		}
-		
-//		this.add('earthcore');
-		
-//		this.add('sphere');
 	}
 
 	
@@ -298,12 +271,7 @@ app.service('ui', ['planets', 'camera', 'state', 'attributes', 'audio', function
 		else if(tag == 'iapetus'){
 			offset += 175;
 		}
-		
-		/*
-		if(offset > 0){
-			offset *= Math.min(disv(camera.camera.getWorldPosition(), planets.celestials[tag].getWorldPosition()) / 10000000, 1);
-		}*/
-		
+
 		if(offset > 0){
 			offset = disv(camera.camera.getWorldPosition(), planets.celestials[tag].getWorldPosition()) < attributes.au ? 0 : offset;
 		}
@@ -349,6 +317,7 @@ app.service('ui', ['planets', 'camera', 'state', 'attributes', 'audio', function
 			angular.element('#' + id + 'tag').find('.tagMid, .tagName').addClass('selected');
 			angular.element('#' + id + 'nav').addClass('selected').parent().parent().addClass('selected');
 			
+			// flash numbers on select
 			angular.element('.panelNumber').addClass('flash');
 			
 			camera.addPauseAnim = setTimeout(function(){
@@ -592,11 +561,7 @@ app.service('ui', ['planets', 'camera', 'state', 'attributes', 'audio', function
 		}
 		
 		this.panelTickTime += clock.getDelta();
-		
-//		console.log(planets.celestials.mars.getWorldPosition());
-//		this.project(renderer, camera, planets.scenes.earth, 'earthcore');
-		
-//		this.project(renderer, camera, planets.forceSphere, 'sphere', true);
+
 	}.bind(this)
 	
 	// camera needs access to these

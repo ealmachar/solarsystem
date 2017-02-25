@@ -36,11 +36,6 @@ app.service('camera', ['planets', 'attributes', 'state', 'effects', function(pla
 
 	this.addPauseAnim;
 	
-	/*
-	// camera flies in accordance to this travel function
-	var travFcn = [];
-	*/
-	
 	this.camera = camera;
 	
 	this.mouseInit = function(){
@@ -99,57 +94,7 @@ app.service('camera', ['planets', 'attributes', 'state', 'effects', function(pla
 		//this.initTravFcn();
 	}
 	
-	/*
-	// when the camera flies, it flies in a gauss like fashion
-	// slow start, fast middle, slow end
-	// f(x) = ((sin(sin(sin(sin( PI/2 )))) + 1 ) * 0.5)^3 - ((sin(sin(sin(sin( -x )))) + 1 ) * 0.5)^3
-	// where -pi/2 < x < pi/2
-	this.initTravFcn = function(){
-		var min, max, progress;
-		
-		var fcn = function(x){
-			// x is 0 < x < flyMax
-			// translate to -pi/2 < x < pi/2
-			// end goal: sin(-pi/2) = -1 to sin(pi/2) = 1
-			var input = ( x / flyMax ) * Math.PI - Math.PI / 2;
-			
-			// traversal function
-			var travFcn = function(input){
-				
-				var core = Math.sin( Math.sin( Math.sin( Math.sin( input ) ) ) );
-				
-				// -1 < result < 1
-				// to
-				// 0 < result < 1
-				core = ( core + 1 ) * 0.5;
-				
-				// exponent of 3 to dampen
-				core = Math.pow(core, 3);
-				
-				return core;
-			}
-			
-			
-			var result = travFcn( Math.PI/2 ) - travFcn( -input );
-			
-			return result;
-		}
-
-		// min and max for translation
-		min = fcn(flyProgress);
-		max = fcn(flyMax);
-
-		// apply the calculated values to a flyMax element array
-		for(var i = flyProgress; i < flyMax; i++){
-			progress = fcn(i);
-			
-			// translate result from min < x < max to 0 < x < 1
-			progress = ( progress + ( 1 - max ) ) * ( ( progress - min) / (max - min) );
-
-			travFcn.push(progress);
-		}
-	}
-	*/
+	
 	
 	// rotation in degrees
 	function cameraRotate(x, y){
@@ -176,30 +121,7 @@ app.service('camera', ['planets', 'attributes', 'state', 'effects', function(pla
 		
 		cameraApply();
 	}
-	/*
-	// because WebGL coordinates have y axis up, rotate coordinates: (x, y, z) -> (z, x, y)
-	function cameraMove(z, x){
-		var _theta = phi > Math.PI/2 ? theta : -theta;
-		var rotate = _theta - Math.PI/2;
 
-		// 2-d rotation matrix, camera pos movement -> world pos movement
-		var zDelta = z * Math.cos(rotate) - x * Math.sin(rotate);
-		var xDelta = z * Math.sin(rotate) + x * Math.cos(rotate);
-		
-		zDelta *= radius * cameraMoveModifier;
-		xDelta *= radius * cameraMoveModifier;
-		
-		zDelta *= phi > Math.PI/2 ? -1 : 1;
-		
-		cameraWorldPosZ += zDelta;
-		cameraWorldPosX += xDelta
-
-		cameraFocus.z += zDelta;
-		cameraFocus.x += xDelta;
-
-		cameraApply();
-	}
-	*/
 	function cameraApply(){
 		// convert (x, y) mouse movement to webgl spherical coordinates (z, x, y)
 		var z =  radius * Math.sin(phi) * Math.cos(-theta);
@@ -318,14 +240,6 @@ app.service('camera', ['planets', 'attributes', 'state', 'effects', function(pla
 
 		rotateEnd = theta + rotateInterval;
 
-/*
-		if(theta > rotateEnd)
-			rotateInterval = theta - rotateEnd;
-		else{
-			rotateInterval = Math.PI * 2 - rotateEnd + theta
-		}*/
-
-		//			rotateInterval = theta - rotateEnd;
 	}
 	
 	// called per render tick to calculate camera movement and radius when flying
@@ -436,7 +350,6 @@ app.service('camera', ['planets', 'attributes', 'state', 'effects', function(pla
 
 		
 		planets.sunAnimate(camera, radius);
-//		planets.earth.material.specular = specular;
 		planets.universe.updateMatrixWorld( true );
 		
 		if(flyRotate){
@@ -447,13 +360,3 @@ app.service('camera', ['planets', 'attributes', 'state', 'effects', function(pla
 	}
 	
 }]);
-
-var log = 60;
-
-var specular = {r:0.5, g:0.5, b:0.5};
-
-function toRGB(r, g, b){
-	specular.r = r/255;
-	specular.g = g/255;
-	specular.b = b/255;
-}

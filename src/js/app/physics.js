@@ -1,6 +1,5 @@
 app.service('physics', ['planets', 'attributes', 'ui', 'state', function(planets, attributes, ui, state){
 	var g = 6.674E-11;
-//	var earthSystem = planets.celestials;
 
 	var earth, earthClouds, moon;
 	var venusClouds;
@@ -20,55 +19,10 @@ app.service('physics', ['planets', 'attributes', 'ui', 'state', function(planets
 		venusClouds.rotation.y += 0.0002;
 		moon.lookAt(earth.getWorldPosition());
 
-/*		
-		var earth = attributes.earthSystem.earth;
-		var moon = attributes.earthSystem.moon;
-		var sun = attributes.sunSystem.sun;
 
 		
-		
-		var force_s = calcForce(earth, sun);
-		var x_s = force_s.x;
-		var y_s = force_s.y;
-		var z_s = force_s.z;
-		var r_s = Math.sqrt(Math.pow(x_s, 2) + Math.pow(y_s, 2) + Math.pow(z_s, 2));
-		
-		//console.log("moon: " + Math.sqrt(Math.pow(moon.vx,2) + Math.pow(moon.vy,2) + Math.pow(moon.vz,2)));
-		
-		var force = calcForce(moon, earth);
-		var x = force.x;
-		var y = force.y;
-		var z = force.z;
-//		var x = moon.fx;
-//		var y = moon.fy;
-//		var z = moon.fz;
-		var r = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2));
-		
 
-		
-		x /= r;
-		y /= r;
-		z /= r;
-		var dis = distance(earth, sun);
-		x *= dis;
-		y *= dis;
-		z *= dis;
-		
-		//this.distance = r.toExponential();
-		this.distance = dis;
 
-		
-		//console.log(unitx + " " + unity + " " + unitz);
-		
-		var sphere = planets.forceSphere.position.set(
-			earthSystem.moon.position.x + x,
-			earthSystem.moon.position.y + y,
-			earthSystem.moon.position.z + z
-		);
-*/
-		
-
-//console.log("-------------");
 
 		// calculate force for every celestial:
 		// there are two levels:
@@ -92,13 +46,11 @@ app.service('physics', ['planets', 'attributes', 'ui', 'state', function(planets
 				if(body != 'core'){
 					for(var target in system){
 						if(target != body && target != 'core'){
-//							console.log("target: " + target + ", body: " + body);
 							updateForce(system[body], system[target]);
 						}
 					}
 					attributes.systems.forEach(function(targetPlanet, sysIndexb){
 						if(sysIndexb != sysIndexa){
-//							console.log("target: " + targetPlanet.core.name + ", body: " + body + " | target stats: " + targetPlanet.core.mass + ", x: " + targetPlanet.core.x + ", z: " + targetPlanet.core.z);
 							updateForce(system[body], targetPlanet.core);
 						}
 					})
@@ -113,8 +65,8 @@ app.service('physics', ['planets', 'attributes', 'ui', 'state', function(planets
 					updateAcceleration(system[body]);
 					updateVelocity(system[body]);
 					updatePosition(system[body]);
-//					if(body != "earth")
-						applyPosition(planets.celestials[body], system[body], body, system['core']);
+
+					applyPosition(planets.celestials[body], system[body], body, system['core']);
 					
 					if(ui.panelTickTime > ui.panelTickRate){
 						if(body == state.target){
@@ -130,36 +82,6 @@ app.service('physics', ['planets', 'attributes', 'ui', 'state', function(planets
 
 		
 		attributes.updateCore();
-		
-		/*
-		
-		updateForce(earth, moon);
-		updateForce(moon, earth);
-		updateForce(earth, sun);
-		updateForce(sun, earth);
-		updateForce(moon, sun);
-		updateForce(sun, moon);
-		
-		updateAcceleration(earth);
-		updateAcceleration(moon);
-		updateAcceleration(sun);
-		
-		updateVelocity(earth);
-		updateVelocity(moon);
-		updateVelocity(sun);
-		
-		updatePosition(earth);
-		updatePosition(moon);
-		updatePosition(sun);
-		
-		applyPosition(planets.celestials.earth, earth);
-		applyPosition(planets.celestials.moon, moon);
-		applyPosition(planets.celestials.sun, sun);
-		
-		resetForce(earth);
-		resetForce(moon);
-		resetForce(sun);
-		*/
 		
 	}
 	
