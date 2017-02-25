@@ -1,0 +1,87 @@
+/*
+	// when the camera flies, it flies in a gauss like fashion
+	// slow start, fast middle, slow end
+	// f(x) = ((sin(sin(sin(sin( PI/2 )))) + 1 ) * 0.5)^3 - ((sin(sin(sin(sin( -x )))) + 1 ) * 0.5)^3
+	// where -pi/2 < x < pi/2
+	this.initTravFcn = function(){
+		var min, max, progress;
+		
+		var fcn = function(x){
+			// x is 0 < x < flyMax
+			// translate to -pi/2 < x < pi/2
+			// end goal: sin(-pi/2) = -1 to sin(pi/2) = 1
+			var input = ( x / flyMax ) * Math.PI - Math.PI / 2;
+			
+			// traversal function
+			var travFcn = function(input){
+				
+				var core = Math.sin( Math.sin( Math.sin( Math.sin( input ) ) ) );
+				
+				// -1 < result < 1
+				// to
+				// 0 < result < 1
+				core = ( core + 1 ) * 0.5;
+				
+				// exponent of 3 to dampen
+				core = Math.pow(core, 3);
+				
+				return core;
+			}
+			
+			
+			var result = travFcn( Math.PI/2 ) - travFcn( -input );
+			
+			return result;
+		}
+
+		// min and max for translation
+		min = fcn(flyProgress);
+		max = fcn(flyMax);
+
+		// apply the calculated values to a flyMax element array
+		for(var i = flyProgress; i < flyMax; i++){
+			progress = fcn(i);
+			
+			// translate result from min < x < max to 0 < x < 1
+			progress = ( progress + ( 1 - max ) ) * ( ( progress - min) / (max - min) );
+
+			travFcn.push(progress);
+		}
+	}
+	*/
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		/*
+	// because WebGL coordinates have y axis up, rotate coordinates: (x, y, z) -> (z, x, y)
+	function cameraMove(z, x){
+		var _theta = phi > Math.PI/2 ? theta : -theta;
+		var rotate = _theta - Math.PI/2;
+
+		// 2-d rotation matrix, camera pos movement -> world pos movement
+		var zDelta = z * Math.cos(rotate) - x * Math.sin(rotate);
+		var xDelta = z * Math.sin(rotate) + x * Math.cos(rotate);
+		
+		zDelta *= radius * cameraMoveModifier;
+		xDelta *= radius * cameraMoveModifier;
+		
+		zDelta *= phi > Math.PI/2 ? -1 : 1;
+		
+		cameraWorldPosZ += zDelta;
+		cameraWorldPosX += xDelta
+
+		cameraFocus.z += zDelta;
+		cameraFocus.x += xDelta;
+
+		cameraApply();
+	}
+	*/
