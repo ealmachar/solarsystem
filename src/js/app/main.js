@@ -44,14 +44,18 @@ app.service('main', ['planets', 'physics', 'attributes', 'ui', 'camera', 'audio'
 	
 
 	function animate() {
-		physics.tick();
+		var delta = clock.getDelta();
+		
+		physics.tick(delta);
 		camera.tick();
 		ui.tick(renderer, camera.camera);
 
+		effects.composer.render(delta);
+		
 //		renderer.render( scene, camera.camera);
 		
-		var delta = clock.getDelta();
-		effects.composer.render(delta);
+
+		
 		stats.end();
 		stats.begin();
 

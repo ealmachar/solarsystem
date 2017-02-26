@@ -2,8 +2,9 @@ app.service('state', function(){
 	this.target = null;
 	this.exhibit;
 	this.deselect;
-	this.tMax = 5000;
-	this.t = 10;
+	this.tMax = 10000;
+	this.t = 1;
+	this.tDelta = null;
 	
 	this.options = {
 		flying: true,

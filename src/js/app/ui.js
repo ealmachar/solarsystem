@@ -273,7 +273,7 @@ app.service('ui', ['planets', 'camera', 'state', 'attributes', 'audio', function
 		}
 
 		if(offset > 0){
-			offset = disv(camera.camera.getWorldPosition(), planets.celestials[tag].getWorldPosition()) < attributes.au ? 0 : offset;
+			offset = disv(camera.camera.getWorldPosition(), planets.celestials[tag].getWorldPosition()) < attributes.au/2 ? 0 : offset;
 		}
 		
 		// make ui plates follow planets at all times except:
@@ -315,7 +315,7 @@ app.service('ui', ['planets', 'camera', 'state', 'attributes', 'audio', function
 			state.target = id;
 			
 			angular.element('#' + id + 'tag').find('.tagMid, .tagName').addClass('selected');
-			angular.element('#' + id + 'nav').addClass('selected').parent().parent().addClass('selected');
+			angular.element('#' + id + 'nav').addClass('selected');
 			
 			// flash numbers on select
 			angular.element('.panelNumber').addClass('flash');
@@ -342,7 +342,7 @@ app.service('ui', ['planets', 'camera', 'state', 'attributes', 'audio', function
 		clearTimeout(this.addPauseAnim);
 		
 		// deselect panel
-		angular.element('#' + target + 'nav').removeClass('selected pauseAnim').parent().parent().removeClass('selected');
+		angular.element('#' + target + 'nav').removeClass('selected pauseAnim');
 		
 		// fold exhibit panel in steps
 		// fade out contents

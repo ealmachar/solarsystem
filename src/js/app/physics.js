@@ -7,20 +7,22 @@ app.service('physics', ['planets', 'attributes', 'ui', 'state', function(planets
 	this.init = function(){
 		earth = planets.celestials.earth.getObjectByName('earth');
 		earthClouds = planets.celestials.earth.getObjectByName('earthAtm');
-		moon = planets.celestials.moon.getObjectByName('moon');;
+		moon = planets.celestials.moon.getObjectByName('moon');
 		venusClouds = planets.celestials.venus.getObjectByName('venusAtm');
 	}
 	
 	this.distance;
 	
-	this.tick = function(){
+	this.tick = function(delta){
 		earth.rotation.y += 0.0001;
 		earthClouds.rotation.y += 0.00013;
 		venusClouds.rotation.y += 0.0002;
 		moon.lookAt(earth.getWorldPosition());
-
-
 		
+		delta = delta || 1;
+		state.tDelta = delta * state.t;
+		
+
 
 
 
@@ -98,15 +100,15 @@ app.service('physics', ['planets', 'attributes', 'ui', 'state', function(planets
 	}
 
 	function updatePosition(body){
-		body.x += body.vx * state.t;
-		body.y += body.vy * state.t;
-		body.z += body.vz * state.t;
+		body.x += body.vx * state.tDelta;
+		body.y += body.vy * state.tDelta;
+		body.z += body.vz * state.tDelta;
 	}
 
 	function updateVelocity(body1){
-		body1.vx += body1.ax * state.t;
-		body1.vy += body1.ay * state.t;
-		body1.vz += body1.az * state.t;
+		body1.vx += body1.ax * state.tDelta;
+		body1.vy += body1.ay * state.tDelta;
+		body1.vz += body1.az * state.tDelta;
 	}
 
 	function updateAcceleration(body1){

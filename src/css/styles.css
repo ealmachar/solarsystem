@@ -342,11 +342,11 @@ navigation panel
 	background-color: rgba(70, 130, 180, .1);
 }
 
-.panelCell.panelTarget, .panelCell.panelParent{
+.panelCell.panelTarget, .panelParent{
 	height: 28px;
 }
 
-.panelTarget span, .panelParent span, #navTitle span{
+.panelTarget span, #navTitle span{
 	position: relative;
 	top: 4px;
 }
@@ -371,12 +371,12 @@ navigation panel
 	background-color: rgba(70, 130, 180, .1);
 }
 	
-.panelTarget:hover, .panelParent:hover{
+.panelTarget:hover{
 	color: rgba(0, 0, 0, 1);
 	background-color: rgba(70, 130, 180, .9);
 }
 
-.selected.panelTarget, .selected.panelParent{
+.selected.panelTarget{
 	color: rgba(0, 0, 0, 1);
 	background-color: rgba(70, 130, 180, .9);
 	animation-name: flicker_nav;
