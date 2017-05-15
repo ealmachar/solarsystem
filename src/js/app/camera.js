@@ -327,6 +327,11 @@ app.service('camera', ['planets', 'attributes', 'state', 'effects', function(pla
 			this.resetFlyingRotateCam();
 		}
 	}
+	
+	this.setAspect = function(aspect){
+		camera.aspect = aspect;
+		camera.updateProjectionMatrix();
+	}
 
 	this.tick = function(){
 

@@ -25,6 +25,7 @@ app.service('main', ['planets', 'physics', 'attributes', 'ui', 'camera', 'audio'
 
 		renderer = new THREE.WebGLRenderer({logarithmicDepthBuffer: true});
 		renderer.setSize(window.innerWidth, window.innerHeight);
+		
 		document.body.appendChild(renderer.domElement);
 
 		scene = new THREE.Scene();
@@ -39,6 +40,12 @@ app.service('main', ['planets', 'physics', 'attributes', 'ui', 'camera', 'audio'
 		effects.init(scene, renderer, camera.camera);
 		
 		physics.tick();
+		
+		window.addEventListener("resize", function(){
+			renderer.setSize(window.innerWidth, window.innerHeight);
+			camera.setAspect(window.innerWidth / window.innerHeight);
+			ui.exhibitRealign();
+		});
 	}
 	
 	

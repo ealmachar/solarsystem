@@ -399,6 +399,14 @@ app.service('ui', ['planets', 'camera', 'state', 'attributes', 'audio', function
 		}, 500);
 	}
 	
+	this.exhibitRealign = function(){
+		if(state.target){
+			obj.css('left', ( window.innerWidth - 550 ) + 'px');
+			obj.find('.exhibit').css('height', ( window.innerHeight - 200 ) + 'px');
+			obj.find('.exhibitBody').css('height', ( window.innerHeight - 200 - 50 ) + 'px');
+		}
+	}
+	
 	
 
 	
